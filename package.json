@@ -1,0 +1,30 @@
+{
+  "name": "@alphaeadev/node-cf-deploy",
+  "version": "1.0.1",
+  "description": "Command line tool to manage deployment to AWS Cloud Foundry",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --watch --require .mocha.setup.js './**/*.spec.js'"
+  },
+  "bin": "index.js",
+  "keywords": [],
+  "author": "Graham King <gking2224@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.180.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "lodash": "^4.17.4",
+    "uuid": "^3.1.0",
+    "yargs": "^10.1.1"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "chai": "^4.1.2",
+    "mocha": "^4.1.0"
+  },
+  "publishConfig": {
+    "registry": "http://nexus.alphaea.uk/repository/npm-releases/"
+  }
+}
