@@ -4,6 +4,7 @@ export default ({ name, region, s3Template, parameters }) => {
   return new Promise((res, rej) => {
     const cf = new AWS.CloudFormation({ region });
 
+    console.log(name, region, s3Template, parameters);
     const params = [];
     Object.keys(parameters).forEach((k) => {
       params.push({
@@ -18,7 +19,7 @@ export default ({ name, region, s3Template, parameters }) => {
       Parameters: params,
     }, (err, data) => {
       if (err) rej(err);
-      return res(data.StackId);
+      else res(data.StackId);
     });
   })
 }

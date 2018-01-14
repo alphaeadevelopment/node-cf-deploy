@@ -97,7 +97,10 @@ const handlerAsync = async ({ name, region, file, s3Bucket, parameter, synchrono
 const handler = (args) => {
   handlerAsync(args)
     .then(result => console.log(result))
-    .catch(err => console.log(err.message));
+    .catch(err => {
+      console.log(err.message);
+      process.exit(1);
+    });
 }
 
 export default ({
