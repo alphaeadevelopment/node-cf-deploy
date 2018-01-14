@@ -1,6 +1,6 @@
 {
   "name": "@alphaeadev/node-cf-deploy",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Command line tool to manage deployment to AWS Cloud Foundry",
   "main": "index.js",
   "scripts": {
