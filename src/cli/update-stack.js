@@ -1,9 +1,10 @@
 import AWS from 'aws-sdk';
 import fs from 'fs';
-import uuid from 'uuid/v5'
+import uuid from 'uuid/v5';
+import includes from 'lodash/includes';
 
 import { stripQuotes, parseKeyValuePair, s3ObjectUrl } from '../utils';
-import { s3BucketStatus, s3CreateBucket, s3PutObject, updateStack } from '../api';
+import { s3BucketStatus, s3CreateBucket, s3PutObject, updateStack, getStackStatus } from '../api';
 
 const builder = (yargs) => {
   yargs
@@ -28,14 +29,20 @@ const builder = (yargs) => {
       'parameter': {
         alias: 'P',
         type: 'array',
-      }
+      },
+      'synchronous': {
+        alias: 'S',
+        description: 'Synchronous processing, script will not exit until processing complete',
+        type: 'boolean',
+        default: false,
+      },
     })
     .coerce('file', (f) => {
       return fs.readFileSync(f, 'utf8');
     });
 }
 
-const handlerAsync = async ({ name, region, file, s3Bucket, parameter }) => {
+const handlerAsync = async ({ name, region, file, s3Bucket, parameter, synchronous }) => {
   const parameters = parameter.reduce((ps, p) => {
     const kvp = parseKeyValuePair(p, { convertNumbers: false });
     return Object.assign(ps, { [kvp.key]: kvp.value })
@@ -60,7 +67,31 @@ const handlerAsync = async ({ name, region, file, s3Bucket, parameter }) => {
     s3Template: s3ObjectUrl({ region, bucket: s3Bucket, key: name }),
     parameters,
   });
-  return data
+  console.log(`Updated: ${arn}`);
+  if (!synchronous) return arn
+
+  console.log('Waiting for update to complete');
+
+  let updateStatus;
+  const sleep = (t) => {
+    const ms = t + new Date().getTime();
+    while (new Date() < ms) { }
+  }
+  do {
+    sleep(10000);
+    updateStatus = await getStackStatus(name, region);
+    if (updateStatus === 'ROLLBACK_IN_PROGRESS') {
+      console.log('Rolling back');
+    }
+  }
+  while (!includes(['UPDATE_COMPLETE', 'ROLLBACK_COMPLETE', 'UPDATE_ROLLBACK_COMPLETE'], updateStatus))
+
+  if (updateStatus === 'UPDATE_COMPLETE') {
+    return;
+  }
+  else {
+    throw new Error('Rolled back');
+  }
 }
 
 const handler = (args) => {
