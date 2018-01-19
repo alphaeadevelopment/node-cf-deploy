@@ -3,6 +3,7 @@ import { configure } from './api'
 
 import {
   getStackStatus, createStack, updateStack, deleteStack, getInstancesByTags, terminateInstancesByTags,
+  terminateStackInstances,
 } from './cli';
 import describeStack, { builder as describeStackBuilder } from './cli/describe-stack';
 
@@ -56,6 +57,7 @@ const cmd = yargs
   .command(c(updateStack))
   .command(c(getInstancesByTags))
   .command(c(terminateInstancesByTags))
+  .command(c(terminateStackInstances))
   .options({
     'profile': {
       alias: 'p',
