@@ -4,7 +4,8 @@
   "description": "Command line tool to manage deployment to AWS Cloud Foundry",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --watch --require .mocha.setup.js './**/*.spec.js'"
+    "test": "mocha --watch --require .mocha.setup.js './**/*.spec.js'",
+    "deploy": "npm version patch && git push && git push --tags && npm publish"
   },
   "bin": "index.js",
   "keywords": [],
