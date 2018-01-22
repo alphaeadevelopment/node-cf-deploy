@@ -23,7 +23,6 @@ const builder = (yargs) => {
 const handlerAsync = async ({ region, stackName }) => {
   const stacks = await describeStacks(stackName, region);
   const stackId = stacks.Stacks[0].StackId
-  console.log(stackId);
   const instances = await describeInstances({
     region,
     tags: { 'aws:cloudformation:stack-id': stackId },

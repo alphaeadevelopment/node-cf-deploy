@@ -67,7 +67,6 @@ const handlerAsync = async ({ name, region, file, s3Bucket, parameter, synchrono
     s3Template: s3ObjectUrl({ region, bucket: s3Bucket, key: name }),
     parameters,
   });
-  console.log(`Updated: ${arn}`);
   if (!synchronous) return arn
 
   console.log('Waiting for update to complete');
@@ -96,7 +95,7 @@ const handlerAsync = async ({ name, region, file, s3Bucket, parameter, synchrono
 
 const handler = (args) => {
   handlerAsync(args)
-    .then(result => console.log(result))
+    .then(() => null)
     .catch(err => {
       console.log(err.message);
       process.exit(1);

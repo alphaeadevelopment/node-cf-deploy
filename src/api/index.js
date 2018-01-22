@@ -9,3 +9,4 @@ export { default as s3BucketStatus } from './s3-bucket-status';
 export { default as s3CreateBucket } from './s3-create-bucket';
 export { default as describeInstances } from './describe-instances';
 export { default as terminateInstances } from './terminate-instances';
+export { default as updateAutoScalingGroup } from './update-auto-scaling-group';

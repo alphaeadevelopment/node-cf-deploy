@@ -5,3 +5,5 @@ export { default as updateStack } from './update-stack';
 export { default as getInstancesByTags } from './get-instances-by-tags';
 export { default as terminateInstancesByTags } from './terminate-instances-by-tags';
 export { default as terminateStackInstances } from './terminate-stack-instances';
+export { default as getStackOutput } from './get-stack-output';
+export { default as scaleStack } from './scale-stack';
