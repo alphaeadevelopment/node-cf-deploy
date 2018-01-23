@@ -42,7 +42,7 @@ const builder = (yargs) => {
     });
 }
 
-const handlerAsync = async ({ name, region, file, s3Bucket, parameter, synchronous }) => {
+const handlerAsync = async ({ name, region, file, s3Bucket, parameter = [], synchronous }) => {
   const parameters = parameter.reduce((ps, p) => {
     const kvp = parseKeyValuePair(p, { convertNumbers: false });
     return Object.assign(ps, { [kvp.key]: kvp.value })
