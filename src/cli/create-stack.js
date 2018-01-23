@@ -30,6 +30,10 @@ const builder = (yargs) => {
         alias: 'P',
         type: 'array',
       },
+      'capability': {
+        alias: 'c',
+        type: 'array',
+      },
       'synchronous': {
         alias: 'S',
         description: 'Synchronous processing, script will not exit until processing complete',
@@ -42,7 +46,7 @@ const builder = (yargs) => {
     });
 }
 
-const handlerAsync = async ({ name, region, file, s3Bucket, parameter = [], synchronous }) => {
+const handlerAsync = async ({ name, region, file, s3Bucket, parameter = [], capability = [], synchronous }) => {
   const parameters = parameter.reduce((ps, p) => {
     const kvp = parseKeyValuePair(p, { convertNumbers: false });
     return Object.assign(ps, { [kvp.key]: kvp.value })
@@ -65,6 +69,7 @@ const handlerAsync = async ({ name, region, file, s3Bucket, parameter = [], sync
     region,
     s3Template: s3ObjectUrl({ region, bucket: s3Bucket, key: name }),
     parameters,
+    capabilities: capability,
   });
   console.log(`Created: ${arn}`);
   if (!synchronous) return arn

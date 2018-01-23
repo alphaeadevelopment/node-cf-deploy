@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
 
-export default ({ name, region, s3Template, parameters }) => {
+export default ({ name, region, s3Template, parameters, capabilities }) => {
   return new Promise((res, rej) => {
     const cf = new AWS.CloudFormation({ region });
 
@@ -16,6 +16,7 @@ export default ({ name, region, s3Template, parameters }) => {
       StackName: name,
       TemplateURL: s3Template,
       Parameters: params,
+      Capabilities: capabilities,
     }, (err, data) => {
       if (err) rej(err);
       else return res(data.StackId);
