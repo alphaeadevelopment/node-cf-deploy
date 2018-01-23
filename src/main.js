@@ -11,8 +11,8 @@ const c = (config) => {
   const { handler, ...otherProps } = config;
   return {
     ...otherProps,
-    handler: ({ profile, ...otherArgs }) => {
-      configure(profile);
+    handler: ({ ...otherArgs }) => {
+      configure();
       config.handler(otherArgs);
     }
   }
@@ -61,12 +61,6 @@ const cmd = yargs
   .command(c(getStackOutput))
   .command(c(scaleStack))
   .options({
-    'profile': {
-      alias: 'p',
-      type: 'string',
-      default: 'default',
-      description: 'The AWS credentials profile to use',
-    },
     'region': {
       alias: 'r',
       type: 'string',

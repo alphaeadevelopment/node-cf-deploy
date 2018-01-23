@@ -1,6 +1,7 @@
 import AWS from 'aws-sdk';
 
-export default (profile) => {
-  var credentials = new AWS.SharedIniFileCredentials({ profile });
+export default () => {
+  const profile = process.env.AWS_PROFILE || 'default';
+  const credentials = new AWS.SharedIniFileCredentials({ profile });
   AWS.config.credentials = credentials;
 }
